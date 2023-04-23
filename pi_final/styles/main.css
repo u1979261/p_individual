@@ -1,0 +1,73 @@
+input[type=number]{
+	height: 3rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 3rem;
+    text-align: center;
+}
+
+#title{
+	font-size: 26px;
+	line-height: 75px;
+	text-align: center;
+}
+
+.menu-object{
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 300px;
+	height: 75px;
+	font-size: 16px;
+	margin-top: 10px;
+}
+
+p{
+	text-align: center;
+}
+
+button.menu-object:active{
+	font-size: 18px;
+	width: 275px;
+	height: 70px;
+}
+
+button.menu-object:hover:not(:active){
+	font-size: 22px;
+	width: 325px;
+	height: 85px;
+}
+
+button.return-object:active{
+	font-size: 18px;
+	width: 275px;
+	height: 70px;
+}
+
+button.return-object:hover:not(:active){
+	font-size: 22px;
+	width: 325px;
+	height: 85px;
+}
+
+body {
+	background-color: #0D0D0D
+}
+
+#game_area {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -70%);
+}
+
+.return-object{
+	position: fixed;
+	left: 50%;
+	bottom: 20%;
+	transform: translateX(-50%);
+	width: 300px;
+	height: 75px;
+	font-size: 16px;
+	margin-top: 10px;
+}

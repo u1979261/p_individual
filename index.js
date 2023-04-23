@@ -10,3 +10,7 @@ function Menu(){
 function go_game3(){
     loadpage ("./pi_3/index.html")
 }
+
+function go_game4(){
+    loadpage ("./pi_final/index.html")
+}
