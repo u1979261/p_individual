@@ -10,7 +10,6 @@ class GameScene extends Phaser.Scene{
 		this.score = 100;
 		this.correct = 0;
         this.dificulty;
-		this.started=false;
     }
     preload (){	
 		this.load.image('back', '../resources/back.png');
@@ -63,5 +62,111 @@ class GameScene extends Phaser.Scene{
         //CREACION GRUPO//
 		this.cards = this.physics.add.staticGroup();
 
+        
+
+        //TIEMPO CARTAS GIRADAS//
+
+        var WaitTime = 0;
+        if(this.dificulty === "easy"){
+            WaitTime = 8000;
+        }
+        else if(this.dificulty === "normal"){
+            WaitTime=4000;
+        }
+        else{
+            WaitTime=1500;
+        }
+        setTimeout(() => {
+
+            // 4 CARTAS
+            if(this.num_cards == 2){ 
+                for (let i = 0; i < this.cartes.length; i++){
+                    this.cards.create(250+(100*i), 300, 'back');
+                }
+            }
+
+            // 6 CARTAS
+            else if(this.num_cards == 3){
+                for (let i = 0; i < this.cartes.length; i++){
+                    this.cards.create(150+(100*i), 300, 'back');
+                }
+            }
+
+            // 8 CARTAS
+            else{
+                for (let i = 0; i < this.cartes.length; i++){
+                    this.cards.create(50+(100*i), 300, 'back');
+                }
+            } 
+            
+            //GAMEPLAY//
+
+            let i = 0;
+            this.cards.children.iterate((card)=>{
+                card.card_id = this.cartes[i];
+                i++;
+                card.setInteractive();
+                card.on('pointerup', ()=>{
+                    card.disableBody(true,true);
+                    if (this.firstClick){
+
+                        //PAREJA INCORRECTA (-Puntos)//
+                        if (this.firstClick.card_id !== card.card_id){
+
+                            if(this.dificulty === "easy"){
+                                this.score -= 30
+                                this.firstClick.enableBody(false,0,0,true,true);
+                                card.enableBody(false, 0, 0, true, true);
+                            }
+                            if(this.dificulty === "hard"){
+                                this.score -= 15
+                                this.firstClick.enableBody(false,0,0,true,true);
+                                card.enableBody(false, 0, 0, true, true);
+                            }
+                            else{
+                                this.score -= 5
+                                this.firstClick.enableBody(false,0,0,true,true);
+                                card.enableBody(false, 0, 0, true, true);
+                            }
+
+                            //FIN DE JUEGO (LOSE)//
+                            if (this.score <= 0){
+								alert("Game Over");
+								loadpage("../");
+							}
+                        }
+
+                        //PAREJA CORRECTA//
+                        else{
+                            this.correct++;
+                            //FIN DE JUEGO (WIN)//
+                            if (this.correct >= this.num_cards){
+                                alert("You Win with " + this.score + " points.");
+
+                                //GUARDAR PARTIDA RANKING//
+                                var partida = {
+                                    user: this.username,
+                                    points: this.score
+                                }
+                                var vec_partidas = [];
+                                if(localStorage.puntuacion){
+									vec_partidas = JSON.parse(localStorage.puntuacion);
+									if(!Array.isArray(vec_partidas)) vec_partidas = [];
+								}
+                                vec_partidas.push(partida);
+                                vec_partidas.sort((a, b) => b.score - a.score);
+                                vec_partidas = vec_partidas.slice(0,5);
+                                localStorage.score = JSON.stringify(vec_partidas);
+                                loadpage("../");
+                            }
+                        }
+                        this.firstClick = null;
+                    }
+                    else{
+                        this.firstClick = card;
+                    }
+                },card);
+            });
+        }, WaitTime);
     }
 }
