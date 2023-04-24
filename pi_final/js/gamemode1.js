@@ -149,12 +149,12 @@ class GameScene extends Phaser.Scene{
                                     points: this.score
                                 }
                                 var vec_partidas = [];
-                                if(localStorage.puntuacion){
-									vec_partidas = JSON.parse(localStorage.puntuacion);
+                                if(localStorage.score){
+									vec_partidas = JSON.parse(localStorage.score);
 									if(!Array.isArray(vec_partidas)) vec_partidas = [];
 								}
                                 vec_partidas.push(partida);
-                                vec_partidas.sort((a, b) => b.score - a.score);
+                                vec_partidas.sort((a, b) => b.points - a.points);
                                 vec_partidas = vec_partidas.slice(0,5);
                                 localStorage.score = JSON.stringify(vec_partidas);
                                 loadpage("../");

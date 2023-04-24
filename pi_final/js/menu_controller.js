@@ -28,6 +28,18 @@ function mode2 (){
 	loadpage("./mode2.html");
 }
 
+function ranking(){
+	loadpage("./html/ranking.html");
+}
+
+function ranking1(){
+	loadpage("./ranking1.html");
+}
+
+function ranking2(){
+	loadpage("./ranking2.html");
+}
+
 function options(){
 	loadpage("./html/options.html");
 }
