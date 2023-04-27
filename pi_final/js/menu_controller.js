@@ -43,6 +43,9 @@ function ranking2(){
 function options(){
 	loadpage("./html/options.html");
 }
+function options2(){
+	loadpage("./options2.html");
+}
 
 function go_game2(){
     loadpage ("./pi_2/index.html")
