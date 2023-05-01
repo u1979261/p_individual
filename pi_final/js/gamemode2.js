@@ -1,4 +1,4 @@
-var json = localStorage.getItem("config2") || '{"nivell":1,"dificulty":"easy"}';
+var json = localStorage.getItem("config2") || '{"nivell":1,"dificulty":"easy","current_p":0}';
 options_data = JSON.parse(json);
 
 class GameScene extends Phaser.Scene{
@@ -102,8 +102,6 @@ class GameScene extends Phaser.Scene{
             
             //GAMEPLAY//
 
-            var damage=(10*this.lvl);
-
             let i = 0;
             this.cards.children.iterate((card)=>{
                 card.card_id = this.cartes[i];
@@ -117,17 +115,17 @@ class GameScene extends Phaser.Scene{
                         if (this.firstClick.card_id !== card.card_id){
 
                             if(this.dificulty === "easy"){
-                                this.score -= damage
+                                this.score -= (5*this.lvl);
                                 this.firstClick.enableBody(false,0,0,true,true);
                                 card.enableBody(false, 0, 0, true, true);
                             }
                             if(this.dificulty === "hard"){
-                                this.score -= damage
+                                this.score -= (10*this.lvl);
                                 this.firstClick.enableBody(false,0,0,true,true);
                                 card.enableBody(false, 0, 0, true, true);
                             }
                             else{
-                                this.score -=damage
+                                this.score -= (15*this.lvl);
                                 this.firstClick.enableBody(false,0,0,true,true);
                                 card.enableBody(false, 0, 0, true, true);
                             }
@@ -135,6 +133,20 @@ class GameScene extends Phaser.Scene{
                             //FIN DE JUEGO (LOSE)//
                             if (this.score <= 0){
 								alert("Game Over");
+                                //GUARDAR PARTIDA RANKING//
+                                var partida = {
+                                    user: this.username,
+                                    points: options_data.current_p
+                                }
+                                var vec_partidas2 = [];
+                                if(localStorage.score2){
+									vec_partidas2 = JSON.parse(localStorage.score2);
+									if(!Array.isArray(vec_partidas2)) vec_partidas2 = [];
+								}
+                                vec_partidas2.push(partida);
+                                vec_partidas2.sort((a, b) => b.points - a.points);
+                                vec_partidas2 = vec_partidas2.slice(0,5);
+                                localStorage.score2 = JSON.stringify(vec_partidas2);
 								loadpage("../");
 							}
                         }
@@ -144,24 +156,11 @@ class GameScene extends Phaser.Scene{
                             this.correct++;
                             //FIN DE JUEGO (WIN)//
                             if (this.correct >= this.num_cards){
-                                alert("You Win with " + this.score + " points.");
-
-                                //GUARDAR PARTIDA RANKING//
-                                var partida = {
-                                    user: this.username,
-                                    points: this.score
-                                }
-                                var vec_partidas = [];
-                                if(localStorage.score){
-									vec_partidas = JSON.parse(localStorage.score);
-									if(!Array.isArray(vec_partidas)) vec_partidas = [];
-								}
-                                vec_partidas.push(partida);
-                                vec_partidas.sort((a, b) => b.points - a.points);
-                                vec_partidas = vec_partidas.slice(0,5);
-                                localStorage.score = JSON.stringify(vec_partidas);
-
                                 //SIGUIENTE NIVEL//
+                                options_data.nivell = Number(options_data.nivell);
+                                options_data.current_p = Number(options_data.current_p);
+                                alert(options_data.dificulty +" Lvl" + options_data.nivell + " complete");
+                                options_data.current_p += this.score;
                                 options_data.nivell += 1;
                                 if(options_data.nivell>10 && options_data.dificulty == "easy"){
                                     options_data.nivell = 1;
@@ -174,6 +173,7 @@ class GameScene extends Phaser.Scene{
                                 else if(options_data.nivell>10 && options_data.dificulty == "hard"){
                                     options_data.nivell = 10;
                                 }
+                                console.log(options_data);
                                 localStorage.config2 = JSON.stringify(options_data);
                                 loadpage("./game2.html");
                             }

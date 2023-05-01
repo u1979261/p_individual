@@ -1,10 +1,10 @@
 var options = function(){
 	
 	var options_data2 = {
-		nivell:1, dificulty:"easy"
+		nivell:1, dificulty:"easy", current_p:0
 	};
 	var load = function(){
-		var json = localStorage.getItem("config2") || '{"nivell":1,"dificulty":"easy"}';
+		var json = localStorage.getItem("config2") || '{"nivell":1,"dificulty":"easy","current_p":0}';
 		options_data2 = JSON.parse(json);
 	};
 	var save = function(){
@@ -15,11 +15,13 @@ var options = function(){
 		el: "#options_id2",
 		data: {
 			lvl: 1,
-			dificulty: "easy"
+			dificulty: "easy",
+			current_p: 0
 		},
 		created: function(){
 			this.lvl = options_data2.nivell;
 			this.dificulty = options_data2.dificulty;
+			this.current_p = options_data2.current_p;
 		},
 		watch: {
 			lvl: function(value){
@@ -33,10 +35,12 @@ var options = function(){
 			discard: function(){
 				this.lvl = options_data2.nivell;
 				this.dificulty = options_data2.dificulty;
+				this.current_p = options_data2.current_p;
 			},
 			save: function(){
 				options_data2.nivell = this.lvl;
 				options_data2.dificulty = this.dificulty;
+				options_data2.current_p = this.current_p;
 				save();
 				loadpage("../html/mode2.html");
 			}
@@ -47,7 +51,7 @@ var options = function(){
 		getOptionsString: function (){
 			return JSON.stringify(options_data2);
 		},
-		getNumOfCards: function (){
+		getLVL: function (){
 			return options_data2.nivell;
 		},
 		getDificulty: function (){
@@ -57,7 +61,7 @@ var options = function(){
 }();
 
 console.log(options.getOptionsString());
-console.log(options.getNumOfCards());
+console.log(options.getLVL());
 console.log(options.getDificulty());
 console.log(options.options_data2);
 
