@@ -43,6 +43,9 @@ class GameScene extends Phaser.Scene{
         });
         this.cartes = this.cartes.slice(0, this.num_cards);
 		this.cartes = this.cartes.concat(this.cartes);
+        this.cartes.sort(function () {
+            return Math.random() - 0.5;
+        });
 
         //CREACION TABLERO//
         this.cameras.main.setBackgroundColor("333");

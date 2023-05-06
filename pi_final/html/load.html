@@ -1,0 +1,24 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<link rel="stylesheet" href="../styles/main.css">
+		<script src="../js/loader.js"></script>
+		<script src="../js/menu_controller.js"></script>
+		<title> Load </title>
+	</head>
+	<body>
+		<div id="saves_id">
+			<p class="menu-object" id="title">Save files Mode 1</p>
+			<div v-for="(save, indx) in saves">
+				<button class="menu-object" v-on:click="load(indx)"> 
+					{{save.username}} 
+				</button>
+			</div>
+		</div>
+		<button class="return-object" onclick="exit()"> 
+			Return
+		</button>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+	<script src="../js/load.js"></script>
+</html>

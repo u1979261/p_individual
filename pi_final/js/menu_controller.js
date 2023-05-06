@@ -16,6 +16,9 @@ function start_game2(){
 function exit (){
 	loadpage("../index.html");
 }
+function load (){
+	loadpage("./html/load.html");
+}
 
 function exit_menu_mode (){
 	loadpage("./menu_modes.html");
