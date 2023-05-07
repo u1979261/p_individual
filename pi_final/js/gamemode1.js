@@ -84,7 +84,7 @@ class GameScene extends Phaser.Scene {
                 return Math.random() - 0.5;
             });
             //CREACION TABLERO//
-            this.cameras.main.setBackgroundColor("333");
+            this.cameras.main.setBackgroundColor("D8FFDB");
 
             // ALINEAR CARTAS CENTRO//
 
